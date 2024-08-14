@@ -1,38 +1,50 @@
+/* Global Styles */
 * {
     margin: 0;
+    padding: 0;
     font-family: "Poppins", sans-serif;
     box-sizing: border-box;
 }
+/* Hero Section */
 .hero-section {
     height: 100vh;
-    padding-top: 15rem;
+    padding-top: 2rem; /* Adjust this value based on your navbar's height */
     background-color: transparent;
-    z-index: -1;
-}
-.hero-section .flex-hero {
-    flex-direction: column;
-    gap: 30px;
-    text-align:center;
+    z-index: 1;
 }
 
+/* Flex Hero */
+.hero-section .flex-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+}
+
+/* Hero Title */
 .hero-section .flex-hero h1 {
     font-size: 65px;
     font-weight: 900;
 }
+
+/* Text Gradient */
 .text-gradient {
-    background: linear-gradient(45deg,#2190FF 2.34%,#b673f8 100.78%);
+    background: linear-gradient(45deg, #2190FF 2.34%, #b673f8 100.78%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+/* Hero Subtitle */
 .hero-section h4 {
     font-size: 22px;
     font-weight: 300;
     text-align: center;
     padding: 12px 14rem;
-    color:#969BA5;
+    color: #969BA5;
 }
 
+/* Button */
 .hero-section .button {
     padding: 0.7rem 2rem;
     border-radius: 25px;
@@ -40,40 +52,42 @@
     color: #fff;
     border: 1px solid transparent;
     width: 15%;
-    margin-top:15px;
+    margin-top: 15px;
 }
 
+/* Spacing */
 .hero-section div:nth-child(2) {
     margin-top: 4rem;
 }
 
+/* Image Flex */
 .hero-section .image {
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 0px;
 }
 
-
-
-
+/* List Styles */
 ul {
     list-style: none;
 }
 
+/* Anchor Tags */
 a {
     text-decoration: none;
     color: #333;
 }
 
+/* Headings */
 h1,
 h2 {
     line-height: 1.3;
     margin: 15px 0;
 }
 
-
-
+/* Button */
 button {
     transition: all 0.5s ease-in-out;
     font-size: 1em;
@@ -83,18 +97,18 @@ button {
     margin-top: 10px;
 }
 
-
+/* Button Hover Effect */
 .button:hover {
     transform: scale(0.98);
 }
 
-
-@media screen and (max-width:980px) {
+/* Media Queries */
+@media screen and (max-width: 980px) {
     .hero-section h1 {
         text-align: center;
     }
     .hero-section {
-        padding-top: 12rem;
+        padding-top: 60px; /* Ensure padding matches navbar height */
     }
     .hero-section h4 {
         font-size: 21px;
@@ -104,30 +118,26 @@ button {
     .image {
         width: 500px;
     }
-    .hero-section .button{
-        margin-top:15px;
+    .hero-section .button {
+        margin-top: 15px;
         width: 45%;
     }
-    
 }
 
-@media screen and (max-width:400px) {
+@media screen and (max-width: 400px) {
     .hero-section h1 {
         font-size: 35px;
     }
-
     .hero-section {
-        padding-top: 10rem;
+        padding-top: 60px; /* Ensure padding matches navbar height */
     }
     .hero-section h4 {
         font-size: 16px;
         padding: 0px 2rem;
     }
-
 }
 
-
-
+/* Cursor */
 button,
 a,
 li {
@@ -135,16 +145,13 @@ li {
 }
 
 /* Blob */
-
-
-/* Blobs */
 .flex-hero .blob-cont {
+    display: flex;
     justify-content: center;
     align-items: center;
     position: static;
     margin: 10px;
 }
-
 
 .blob {
     border-radius: 100px;
@@ -154,7 +161,7 @@ li {
 .blue {
     background-color: #2937a392;
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     right: 55%;
     bottom: 25%;
@@ -163,10 +170,11 @@ li {
     width: 200px;
     animation: blobani 8s infinite ease;
 }
+
 .blue1 {
     background-color: #2937a392;
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     right: -55%;
     bottom: -25%;
@@ -175,12 +183,27 @@ li {
     width: 200px;
     animation: blobani 8s infinite ease;
 }
-  
-  
-  @keyframes blobani {
-    0% {top: 0; left: 0; transform: scale(1);}
-    30% {top: 0; left: 0; transform: scale(1.2);}
-    60% {top: 0; left: 0; transform: scale(1.3);}
-    100% {top: 0; left: 0; transform: scale(1);}
-  }
-  
+
+/* Blob Animation */
+@keyframes blobani {
+    0% {
+        top: 0;
+        left: 0;
+        transform: scale(1);
+    }
+    30% {
+        top: 0;
+        left: 0;
+        transform: scale(1.2);
+    }
+    60% {
+        top: 0;
+        left: 0;
+        transform: scale(1.3);
+    }
+    100% {
+        top: 0;
+        left: 0;
+        transform: scale(1);
+    }
+}
