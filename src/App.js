@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from './Navbar/Navbar';
 import { LandingPage } from './LandingPage/LandingPage';
 import { Login } from './Login/Login';
-import { Sign_Up } from './Sign_Up/Sign_Up';
+import  Sign_Up  from './Sign_Up/Sign_Up';
 function App() {
 
   return (
@@ -14,7 +14,7 @@ function App() {
           <Navbar/>
 
           <Routes>
-              <Route path="/" element={<LandingPage />} />
+              <Route path="/" exact element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/sign_up" element={<Sign_Up />} />
           </Routes>

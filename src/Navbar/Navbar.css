@@ -189,3 +189,7 @@ body {
         opacity: 1;
     }
 }
+.username {
+  margin-right: 15px; /* Adjust as needed */
+  font-weight: bold;
+}
