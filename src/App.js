@@ -6,8 +6,7 @@ import {Navbar} from './Components/Navbar/Navbar'
 import { LandingPage } from './Components/LandingPage/LandingPage';
 import  Login  from './Components/Login/Login';
 import  Sign_Up  from './Components/Sign_Up/Sign_Up';
-import InstantConsultation from './Components/InstantConsultationBooking/InstantConsultationBooking/InstantConsultation';
-import FindDoctorSearch from './Components/FindDoctorSearch/FindDoctorSearch';
+import BookingConsultation from './Components/BookingConsultation';
 function App() {
 
   return (
@@ -19,7 +18,7 @@ function App() {
               <Route path="/" exact element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/sign_up" element={<Sign_Up />} />
-              <Route path="/FindDoctorSearch" element={<FindDoctorSearch />} />
+              <Route path="/BookingConsultation" element={<BookingConsultation />} />
           </Routes>
         </BrowserRouter>
     </div>
