@@ -24,7 +24,7 @@ export const LandingPage = () => {
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque at quae ducimus. Suscipit omnis quibusdam non cum rem voluptatem! 
             </h4>
             {/* Replace <a> with <Link> */}
-            <Link to="/instant-consultation">
+            <Link to="/FindDoctorSearch">
               <button className="button">Get Started</button>
             </Link>
           </div>
