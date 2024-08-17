@@ -1,10 +1,22 @@
-import React from 'react';
-import './ReviewForm.css'; // Optional: Create a CSS file for styling
+import React, { useState } from 'react';
+import GiveReviews from '../GiveReviews/GiveReviews';
+import './ReviewForm.css';
 
 const ReviewForm = ({ reviews }) => {
-  const handleFeedback = (review) => {
-    // Handle feedback logic here, like redirecting to a feedback form page
-    alert(`Provide feedback for Dr. ${review.doctorName}`);
+  const [selectedReviewIndex, setSelectedReviewIndex] = useState(null);
+  const [reviewList, setReviewList] = useState(reviews);
+
+  const handleFeedback = (index) => {
+    setSelectedReviewIndex(index);
+  };
+
+  // Function to update the review after submission
+  const handleReviewSubmit = (index, reviewData) => {
+    const updatedReviews = reviewList.map((review, i) =>
+      i === index ? { ...review, reviewGiven: reviewData.reviewText, rating: reviewData.rating } : review
+    );
+    setReviewList(updatedReviews);
+    setSelectedReviewIndex(null); // Optionally, close the form after submission
   };
 
   return (
@@ -18,18 +30,26 @@ const ReviewForm = ({ reviews }) => {
             <th>Doctor Specialty</th>
             <th>Provide Feedback</th>
             <th>Review Given</th>
+            <th>Rating</th>
           </tr>
         </thead>
         <tbody>
-          {reviews.map((review, index) => (
+          {reviewList.map((review, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{review.doctorName}</td>
               <td>{review.specialty}</td>
               <td>
-                <button onClick={() => handleFeedback(review)}>Click Here</button>
+                {selectedReviewIndex === index ? (
+                  <GiveReviews
+                    onSubmit={(reviewData) => handleReviewSubmit(index, reviewData)}
+                  />
+                ) : (
+                  <button onClick={() => handleFeedback(index)}>Click Here</button>
+                )}
               </td>
-              <td>{review.reviewGiven ? 'Yes' : 'No'}</td>
+              <td>{review.reviewGiven ? review.reviewGiven : 'No'}</td>
+              <td>{review.rating ? `${review.rating} ★` : 'No rating'}</td>
             </tr>
           ))}
         </tbody>
