@@ -5,6 +5,7 @@ import './ReviewForm.css';
 const ReviewForm = ({ reviews }) => {
   const [selectedReviewIndex, setSelectedReviewIndex] = useState(null);
   const [reviewList, setReviewList] = useState(reviews);
+  const [submittedReviews, setSubmittedReviews] = useState(new Set());
 
   const handleFeedback = (index) => {
     setSelectedReviewIndex(index);
@@ -16,6 +17,7 @@ const ReviewForm = ({ reviews }) => {
       i === index ? { ...review, reviewGiven: reviewData.reviewText, rating: reviewData.rating } : review
     );
     setReviewList(updatedReviews);
+    setSubmittedReviews(prev => new Set(prev).add(index)); // Mark review as submitted
     setSelectedReviewIndex(null); // Optionally, close the form after submission
   };
 
@@ -40,7 +42,9 @@ const ReviewForm = ({ reviews }) => {
               <td>{review.doctorName}</td>
               <td>{review.specialty}</td>
               <td>
-                {selectedReviewIndex === index ? (
+                {submittedReviews.has(index) ? (
+                  <span>Feedback Submitted</span>
+                ) : selectedReviewIndex === index ? (
                   <GiveReviews
                     onSubmit={(reviewData) => handleReviewSubmit(index, reviewData)}
                   />
