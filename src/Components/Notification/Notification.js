@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Notification.css';
 
-const Notification = ({ appointment, onClose }) => {
-  if (!appointment) return null;
+const Notification = ({ onClose }) => {
+  const [notification, setNotification] = useState(null);
+
+  useEffect(() => {
+    const storedNotification = JSON.parse(localStorage.getItem('notification'));
+    if (storedNotification) {
+      setNotification(storedNotification);
+    }
+  }, []);
+
+  const handleClose = () => {
+    setNotification(null);
+    localStorage.removeItem('notification');
+    if (onClose) onClose();
+  };
+
+  if (!notification) return null;
 
   return (
     <div className="notification">
       <div className="notification-content">
         <p>Appointment Details:</p>
-        <p>Name: {appointment.name}</p>
-        <p>Phone Number: {appointment.phoneNumber}</p>
-        <p>Date: {appointment.appointmentDate}</p>
-        <p>Time: {appointment.appointmentTime}</p>
+        <p>Name: {notification.name}</p>
+        <p>Phone Number: {notification.phoneNumber}</p>
+        <p>Date: {notification.appointmentDate}</p>
+        <p>Time: {notification.appointmentTime}</p>
+        <p>Doctor: {notification.doctorName}</p>
+        <p>Speciality: {notification.doctorSpeciality}</p>
       </div>
     </div>
   );

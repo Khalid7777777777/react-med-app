@@ -9,11 +9,18 @@ import Notification from '../Notification/Notification'; // Import the Notificat
 const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
   const [showModal, setShowModal] = useState(false);
   const [appointments, setAppointments] = useState([]);
-  const [notification, setNotification] = useState(null); // Change to hold appointment details
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
+    // Retrieve the appointments from local storage
     const storedAppointments = JSON.parse(localStorage.getItem(`appointments_${name}`)) || [];
     setAppointments(storedAppointments);
+
+    // Retrieve the notification from localStorage if it exists
+    const storedNotification = JSON.parse(localStorage.getItem('notification'));
+    if (storedNotification) {
+      setNotification(storedNotification);
+    }
   }, [name]);
 
   const handleBooking = () => {
@@ -27,6 +34,7 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
     
     // Clear the notification when an appointment is canceled
     setNotification(null);
+    localStorage.removeItem('notification');
   };
 
   const handleFormSubmit = (appointmentData) => {
@@ -45,19 +53,14 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
 
     // Show notification with appointment details
     setNotification(newAppointment);
-  };
-
-  const handleCloseNotification = () => {
-    setNotification(null);
+    localStorage.setItem('notification', JSON.stringify(newAppointment));
   };
 
   return (
     <div className="doctor-card-container">
       <div className="doctor-card-details-container">
         <div className="doctor-card-profile-image-container">
-          <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="currentColor" className="bi bi-person-fill" viewBox="0 0 16 16">
-            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-          </svg>
+          <img src={profilePic} alt={`${name}'s profile`} />
         </div>
         <div className="doctor-card-details">
           <div className="doctor-card-detail-name">{name}</div>
@@ -88,9 +91,7 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
             <div className="doctorbg" style={{ height: '100vh', overflow: 'scroll' }}>
               <div>
                 <div className="doctor-card-profile-image-container">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="currentColor" className="bi bi-person-fill" viewBox="0 0 16 16">
-                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                  </svg>
+                  <img src={profilePic} alt={`${name}'s profile`} />
                 </div>
                 <div className="doctor-card-details">
                   <div className="doctor-card-detail-name">{name}</div>
@@ -122,7 +123,10 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
       </div>
 
       {/* Notification */}
-      <Notification appointment={notification} onClose={handleCloseNotification} />
+      <Notification appointment={notification} onClose={() => {
+        setNotification(null);
+        localStorage.removeItem('notification');
+      }} />
     </div>
   );
 };

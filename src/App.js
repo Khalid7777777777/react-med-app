@@ -6,7 +6,7 @@ import Login from './Components/Login/Login';
 import Sign_Up from './Components/Sign_Up/Sign_Up';
 import BookingConsultation from './Components/BookingConsultation';
 import ReviewForm from './Components/ReviewForm/ReviewForm'; 
-
+import Notification from './Components/Notification/Notification'
 function App() {
   // Sample reviews data
   const reviews = [
@@ -26,6 +26,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navbar />
+        <Notification />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
