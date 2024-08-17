@@ -4,27 +4,21 @@ import './Navbar.css';
 
 export const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
-  const navigate = useNavigate(); // Use navigate for redirection
+  const navigate = useNavigate();
 
-  // Function to handle click on menu icon
   const handleClick = () => {
     setIsActive(!isActive);
   };
 
-  // Function to handle logout
   const handleLogout = () => {
     sessionStorage.removeItem('auth-token');
     sessionStorage.removeItem('name');
     sessionStorage.removeItem('email');
     sessionStorage.removeItem('phone');
-    navigate('/login'); // Redirect to login page
-    // Optionally, you can remove the page reload as it's generally unnecessary
+    navigate('/login');
   };
 
-  // Check if the user is logged in
   const isLoggedIn = sessionStorage.getItem('auth-token') !== null;
-
-  // Get the username from email
   const email = sessionStorage.getItem('email');
   const username = email ? email.split('@')[0] : '';
 
@@ -52,34 +46,30 @@ export const Navbar = () => {
 
       <ul className={`nav__links ${isActive ? 'active' : ''}`}>
         <li className="link">
-          <NavLink 
-            to="/" 
-            className={({ isActive }) => isActive ? 'active' : ''} // Dynamic class name
-          >
+          <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>
             Home
           </NavLink>
         </li>
         <li className="link">
-          <NavLink 
-            to="/appointments" 
-            className={({ isActive }) => isActive ? 'active' : ''} // Dynamic class name
-          >
+          <NavLink to="/appointments" className={({ isActive }) => isActive ? 'active' : ''}>
             Appointments
+          </NavLink>
+        </li>
+        <li className="link">
+          <NavLink to="/reviews" className={({ isActive }) => isActive ? 'active' : ''}> {/* Add this link */}
+            Reviews
           </NavLink>
         </li>
         {isLoggedIn ? (
           <>
             <li className="link">
-              <span className="username">{username}</span> {/* Display username */}
+              <span className="username">{username}</span>
             </li>
             <li className="linkk">
               <button className="btn1" onClick={handleLogout}>Logout</button>
             </li>
             <li className="link">
-              <NavLink 
-                to="/profile" 
-                className={({ isActive }) => isActive ? 'active' : ''} // Dynamic class name
-              >
+              <NavLink to="/profile" className={({ isActive }) => isActive ? 'active' : ''}>
                 Profile
               </NavLink>
             </li>
@@ -87,18 +77,12 @@ export const Navbar = () => {
         ) : (
           <>
             <li className="linkk">
-              <NavLink 
-                to="/sign_up" 
-                className={({ isActive }) => isActive ? 'active' : ''} // Dynamic class name
-              >
+              <NavLink to="/sign_up" className={({ isActive }) => isActive ? 'active' : ''}>
                 <button className="btn1">Sign Up</button>
               </NavLink>
             </li>
             <li className="linkk">
-              <NavLink 
-                to="/login" 
-                className={({ isActive }) => isActive ? 'active' : ''} // Dynamic class name
-              >
+              <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : ''}>
                 <button className="btn1">Login</button>
               </NavLink>
             </li>
