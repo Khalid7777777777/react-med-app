@@ -7,6 +7,7 @@ import Sign_Up from './Components/Sign_Up/Sign_Up';
 import BookingConsultation from './Components/BookingConsultation';
 import ReviewForm from './Components/ReviewForm/ReviewForm'; 
 import Notification from './Components/Notification/Notification'
+import Profile from './Components/ProfileCard/ProfileCard';
 function App() {
   // Sample reviews data
   const reviews = [
@@ -33,6 +34,7 @@ function App() {
           <Route path="/sign_up" element={<Sign_Up />} />
           <Route path="/BookingConsultation" element={<BookingConsultation />} />
           <Route path="/reviews" element={<ReviewForm reviews={reviews} />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

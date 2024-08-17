@@ -3,38 +3,31 @@ import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../config';
 import './Sign_Up.css';
 
-// Function component for Sign Up form
 const Sign_Up = () => {
-    // State variables using useState hook
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
-    const [showerr, setShowerr] = useState(''); // State to show error messages
-    const [userName, setUserName] = useState(''); // State for extracted user name
-    const navigate = useNavigate(); // Navigation hook from react-router
+    const [userType, setUserType] = useState('normal_user'); // State for user type
+    const [showerr, setShowerr] = useState('');
+    const [userName, setUserName] = useState('');
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
-    // Function to validate form input
     const validateForm = () => {
         const errors = [];
 
-        if (!name) {
-            errors.push("Name is required");
-        }
-
+        if (!name) errors.push("Name is required");
         if (!email) {
             errors.push("Email is required");
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             errors.push("Email is invalid");
         }
-
         if (!phone) {
             errors.push("Phone number is required");
         } else if (!/^\d{10}$/.test(phone)) {
             errors.push("Phone number must be exactly 10 digits");
         }
-
         if (!password) {
             errors.push("Password is required");
         } else if (password.length < 6) {
@@ -44,18 +37,17 @@ const Sign_Up = () => {
         return errors;
     };
 
-    // Function to handle form submission
     const register = async (e) => {
-        e.preventDefault(); // Prevent default form submission
-    
+        e.preventDefault();
+
         const errors = validateForm();
         if (errors.length > 0) {
             setShowerr(errors.join(', '));
             return;
         }
-    
+
         setIsLoading(true);
-    
+
         try {
             const response = await fetch(`${API_URL}/api/auth/register`, {
                 method: "POST",
@@ -67,29 +59,27 @@ const Sign_Up = () => {
                     email: email,
                     password: password,
                     phone: phone,
+                    userType: userType, // Add userType to the request body
                 }),
             });
-    
-            const json = await response.json(); // Parse the response JSON
-    
+
+            const json = await response.json();
+
             if (json.authtoken) {
-                // Store user data in session storage
                 sessionStorage.setItem("auth-token", json.authtoken);
                 sessionStorage.setItem("name", name);
                 sessionStorage.setItem("phone", phone);
                 sessionStorage.setItem("email", email);
-    
-                // Extract the name from email
+
                 const userName = email.split('@')[0];
                 setUserName(userName);
-    
-                // Redirect user to home page
+
                 navigate("/");
-                window.location.reload(); // Refresh the page
+                window.location.reload();
             } else {
                 if (json.errors) {
                     for (const error of json.errors) {
-                        setShowerr(error.msg); // Show error messages
+                        setShowerr(error.msg);
                     }
                 } else {
                     setShowerr(json.error);
@@ -102,7 +92,6 @@ const Sign_Up = () => {
         }
     };
 
-    // JSX to render the Sign Up form
     return (
         <div className="container" style={{ marginTop: '5%' }}>
             <div className="signup-grid">
@@ -114,6 +103,19 @@ const Sign_Up = () => {
                 </div>
                 <div className="signup-form">
                     <form method="POST" onSubmit={register}>
+                    <div className="form-group">
+                            <label htmlFor="userType">Role</label>
+                            <select 
+                                name="userType" 
+                                id="userType" 
+                                value={userType} 
+                                onChange={(e) => setUserType(e.target.value)} 
+                                className="form-control"
+                            >
+                                <option value="normal_user">Patient</option>
+                                <option value="doctor">Doctor</option>
+                            </select>
+                        </div>
                         <div className="form-group">
                             <label htmlFor="name">Name</label>
                             <input 
@@ -170,6 +172,9 @@ const Sign_Up = () => {
                             />
                         </div>
 
+                        {/* Select input for user type */}
+                     
+
                         {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
 
                         <div className="btn-group">
@@ -185,6 +190,7 @@ const Sign_Up = () => {
                                     setEmail('');
                                     setPassword('');
                                     setShowerr('');
+                                    setUserType('normal_user'); // Reset user type
                                 }}
                             >
                                 Reset
