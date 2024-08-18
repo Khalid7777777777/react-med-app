@@ -4,7 +4,7 @@ import './Navbar.css';
 
 export const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State to manage dropdown visibility
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -31,7 +31,7 @@ export const Navbar = () => {
     <nav>
       <div className="nav__logo">
         <Link to="/">
-          StayHealthy 
+          StayHealthy
           <svg xmlns="http://www.w3.org/2000/svg" height="26" width="26" viewBox="0 0 1000 1000" style={{ fill: '#3685fb' }}>
             <title>Doctor With Stethoscope SVG icon</title>
             <g>
@@ -78,14 +78,19 @@ export const Navbar = () => {
                 </li>
               </ul>
             </li>
-            <li className=" btn2">
-              <button onClick={handleLogout}>Logout</button>
+            <li >
+              <button onClick={handleLogout} className="btn2">Logout</button>
             </li>
           </>
         ) : (
-          <li className="link btn1">
-            <Link to="/login">Login</Link>
-          </li>
+          <>
+            <li className="link btn1">
+              <Link to="/login">Login</Link>
+            </li>
+            <li className="link btn1">
+              <Link to="/sign_up">Sign Up</Link>
+            </li>
+          </>
         )}
       </ul>
     </nav>

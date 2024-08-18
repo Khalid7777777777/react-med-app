@@ -1,85 +1,146 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { API_URL } from "../../config";
+import { useNavigate } from "react-router-dom";
+import './ProfileCard.css'
+const ProfileCard = () => {
+  const [userDetails, setUserDetails] = useState({});
+  const [updatedDetails, setUpdatedDetails] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const authtoken = sessionStorage.getItem("auth-token");
+    if (!authtoken) {
+      navigate("/login");
+    } else {
+      fetchUserProfile();
+    }
+  }, [navigate]);
 
-const Profile = () => {
-    // State variables for user data
-    const [name, setName] = useState('John Doe'); // Replace with the actual user name
-    const [email, setEmail] = useState('johndoe@example.com'); // Replace with the actual user email
-    const [phone, setPhone] = useState('1234567890'); // Replace with the actual user phone number
-    const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+  const fetchUserProfile = async () => {
+    try {
+      const authtoken = sessionStorage.getItem("auth-token");
+      const email = sessionStorage.getItem("email");
 
-    // Function to handle save action
-    const handleSave = () => {
-        // Add code here to update user information (e.g., API call)
-        setIsEditing(false); // Exit edit mode
-        alert('User information changed successfully!');
-    };
+      if (!authtoken) {
+        navigate("/login");
+      } else {
+        const response = await fetch(`${API_URL}/api/auth/user`, {
+          headers: {
+            "Authorization": `Bearer ${authtoken}`,
+            "Email": email,
+          },
+        });
+        if (response.ok) {
+          const user = await response.json();
+          setUserDetails(user);
+          setUpdatedDetails(user);
+        } else {
+          throw new Error("Failed to fetch user profile");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    return (
-        <div className="profile-container" style={{ marginTop: '5%' }}>
-            {/* Display the header */}
-            <h1>Welcome, {name}!</h1>
+  const handleEdit = () => {
+    setEditMode(true);
+  };
 
-            {isEditing ? (
-                <div className="edit-form">
-                    {/* Render input fields for editing */}
-                    <div className="form-group">
-                        <label htmlFor="name">Name</label>
-                        <input 
-                            type="text" 
-                            name="name" 
-                            id="name" 
-                            value={name} 
-                            onChange={(e) => setName(e.target.value)} 
-                            className="form-control" 
-                            placeholder="Enter your name" 
-                        />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label htmlFor="email">Email</label>
-                        <input 
-                            type="email" 
-                            name="email" 
-                            id="email" 
-                            value={email} 
-                            onChange={(e) => setEmail(e.target.value)} 
-                            className="form-control" 
-                            placeholder="Enter your email" 
-                        />
-                    </div>
+  const handleInputChange = (e) => {
+    setUpdatedDetails({
+      ...updatedDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-                    <div className="form-group">
-                        <label htmlFor="phone">Phone</label>
-                        <input 
-                            type="tel" 
-                            name="phone" 
-                            id="phone" 
-                            value={phone} 
-                            onChange={(e) => setPhone(e.target.value)} 
-                            className="form-control" 
-                            placeholder="Enter your phone number" 
-                        />
-                    </div>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-                    {/* Save button */}
-                    <button className="btn btn-primary" onClick={handleSave}>
-                        Save
-                    </button>
-                </div>
-            ) : (
-                <div className="user-info">
-                    {/* Display user information */}
-                    <p>Email: {email}</p>
-                    <p>Phone: {phone}</p>
+    try {
+      const authtoken = sessionStorage.getItem("auth-token");
+      const email = sessionStorage.getItem("email");
 
-                    {/* Edit button */}
-                    <button className="btn btn-secondary" onClick={() => setIsEditing(true)}>
-                        Edit
-                    </button>
-                </div>
-            )}
+      if (!authtoken || !email) {
+        navigate("/login");
+        return;
+      }
+
+      const payload = { ...updatedDetails };
+      const response = await fetch(`${API_URL}/api/auth/user`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${authtoken}`,
+          "Content-Type": "application/json",
+          "Email": email,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        sessionStorage.setItem("name", updatedDetails.name);
+        sessionStorage.setItem("phone", updatedDetails.phone);
+
+        setUserDetails(updatedDetails);
+        setEditMode(false);
+        alert(`Profile Updated Successfully!`);
+        navigate("/");
+      } else {
+        throw new Error("Failed to update profile");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <div className="profile-card-container">
+      {editMode ? (
+        <form onSubmit={handleSubmit}>
+          <label>
+            Name
+            <input
+            className="in"
+              type="text"
+              name="name"
+              value={updatedDetails.name}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label>
+    Email
+    <input
+    className="in"
+      type="email"
+      name="email"
+      value={updatedDetails.email || ""}
+      onChange={handleInputChange} // Allow changes
+    />
+  </label>
+          <label>
+            Phone
+            <input
+            className="in"
+              type="tel"
+              name="phone"
+              value={updatedDetails.phone}
+              onChange={handleInputChange}
+            />
+          </label>
+          <button type="submit" className="but">Save</button>
+        </form>
+      ) : (
+        <div className="profile-details">
+          <h1>Welcome, {userDetails.name}!</h1>
+          <p>Email: {userDetails.email}</p>
+          <p>Phone: {userDetails.phone}</p>
+          <button onClick={handleEdit} className="but">Edit</button>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
-export default Profile;
+export default ProfileCard;
