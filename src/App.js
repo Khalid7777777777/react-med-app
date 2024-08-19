@@ -8,6 +8,7 @@ import BookingConsultation from './Components/BookingConsultation';
 import ReviewForm from './Components/ReviewForm/ReviewForm'; 
 import Notification from './Components/Notification/Notification'
 import Profile from './Components/ProfileCard/ProfileCard';
+import ReportLayout from './Components/ReportsLayout/ReportsLayout';
 function App() {
   // Sample reviews data
   const reviews = [
@@ -35,6 +36,7 @@ function App() {
           <Route path="/BookingConsultation" element={<BookingConsultation />} />
           <Route path="/reviews" element={<ReviewForm reviews={reviews} />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/reports" element={<ReportLayout />} />
         </Routes>
       </BrowserRouter>
     </div>

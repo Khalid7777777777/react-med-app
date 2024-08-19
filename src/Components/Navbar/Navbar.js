@@ -74,7 +74,7 @@ export const Navbar = () => {
                   <Link to="/profile">Profile</Link>
                 </li>
                 <li>
-                  <Link to="/settings">Settings</Link>
+                  <Link to="/reports">Your Reports </Link>
                 </li>
               </ul>
             </li>
