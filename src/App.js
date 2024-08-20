@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar } from './Components/Navbar/Navbar';
 import { LandingPage } from './Components/LandingPage/LandingPage';
 import Login from './Components/Login/Login';
-import Sign_Up from './Components/Sign_Up/Sign_Up';
+import SignUp from './Components/Sign_Up/Sign_Up';
 import BookingConsultation from './Components/BookingConsultation';
 import ReviewForm from './Components/ReviewForm/ReviewForm'; 
 import Notification from './Components/Notification/Notification'
@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/sign_up" element={<Sign_Up />} />
+          <Route path="/sign_up" element={<SignUp />} />
           <Route path="/BookingConsultation" element={<BookingConsultation />} />
           <Route path="/reviews" element={<ReviewForm reviews={reviews} />} />
           <Route path="/profile" element={<Profile />} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../config';
 import './Sign_Up.css';
@@ -8,11 +8,9 @@ const Sign_Up = () => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
-    const [userType, setUserType] = useState('normal_user'); // State for user type
+    const [userType, setUserType] = useState('normal_user');
     const [showerr, setShowerr] = useState('');
-    const [userName, setUserName] = useState('');
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
 
     const validateForm = () => {
         const errors = [];
@@ -46,8 +44,6 @@ const Sign_Up = () => {
             return;
         }
 
-        setIsLoading(true);
-
         try {
             const response = await fetch(`${API_URL}/api/auth/register`, {
                 method: "POST",
@@ -59,7 +55,7 @@ const Sign_Up = () => {
                     email: email,
                     password: password,
                     phone: phone,
-                    userType: userType, // Add userType to the request body
+                    userType: userType,
                 }),
             });
 
@@ -70,9 +66,6 @@ const Sign_Up = () => {
                 sessionStorage.setItem("name", name);
                 sessionStorage.setItem("phone", phone);
                 sessionStorage.setItem("email", email);
-
-                const userName = email.split('@')[0];
-                setUserName(userName);
 
                 navigate("/");
                 window.location.reload();
@@ -87,8 +80,6 @@ const Sign_Up = () => {
             }
         } catch (error) {
             setShowerr('An error occurred. Please try again later.');
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -103,7 +94,7 @@ const Sign_Up = () => {
                 </div>
                 <div className="signup-form">
                     <form method="POST" onSubmit={register}>
-                    <div className="form-group">
+                        <div className="form-group">
                             <label htmlFor="userType">Role</label>
                             <select 
                                 name="userType" 
@@ -172,9 +163,6 @@ const Sign_Up = () => {
                             />
                         </div>
 
-                        {/* Select input for user type */}
-                     
-
                         {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
 
                         <div className="btn-group">
@@ -190,7 +178,7 @@ const Sign_Up = () => {
                                     setEmail('');
                                     setPassword('');
                                     setShowerr('');
-                                    setUserType('normal_user'); // Reset user type
+                                    setUserType('normal_user');
                                 }}
                             >
                                 Reset

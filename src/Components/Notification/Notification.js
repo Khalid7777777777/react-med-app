@@ -22,6 +22,7 @@ const Notification = ({ onClose }) => {
   return (
     <div className="notification">
       <div className="notification-content">
+        <button className="close-button" onClick={handleClose}>✖</button>
         <p>Appointment Details:</p>
         <p>Name: {notification.name}</p>
         <p>Phone Number: {notification.phoneNumber}</p>
